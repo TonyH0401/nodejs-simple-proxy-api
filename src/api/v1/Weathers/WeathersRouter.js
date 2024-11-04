@@ -15,6 +15,7 @@ const createError = require("http-errors");
 // --------------------------
 // Section: Weathers Middlewares
 // --------------------------
+const { getWeatherByCityName } = require("./WeathersMiddleware");
 
 // --------------------------
 // Section: Weathers Routers
@@ -26,6 +27,7 @@ router.route("/").get((req, res) => {
     message: "Default branch 🥚 of /weathers! ",
   });
 });
+router.route("/get-weather").get(getWeatherByCityName);
 
 // --------------------------
 // Section: Weathers Error Handlers

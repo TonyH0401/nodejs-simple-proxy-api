@@ -1,0 +1,63 @@
+// --------------------------
+// Section: Package Requirements
+// --------------------------
+const createError = require("http-errors");
+const path = require("path");
+const needle = require("needle");
+
+// --------------------------
+// Section: Custom Utils Requirements
+// --------------------------
+
+// --------------------------
+// Section: Custom Middlewares
+// --------------------------
+
+// --------------------------
+// Section: Constant Declarations
+// --------------------------
+const OPENWEATHER_API_BASE_URL = process.env.OPENWEATHER_API_BASE_URL || "";
+const OPENWEATHER_API_KEY_NAME = process.env.OPENWEATHER_API_KEY_NAME || "";
+const OPENWEATHER_API_KEY_VALUE = process.env.OPENWEATHER_API_KEY_VALUE || "";
+
+// --------------------------
+// Section: Import Models
+// --------------------------
+
+// --------------------------
+// Section: Weathers Middlewares
+// --------------------------
+module.exports.getWeatherByCityName = async (req, res, next) => {
+  const { q } = req.query;
+  try {
+    if (!q)
+      return next(
+        createError(
+          404,
+          `Variable 'q' for city name geocode is missing or undefined!`
+        )
+      );
+    const queryParams = new URLSearchParams({
+      q: q,
+      [OPENWEATHER_API_KEY_NAME]: OPENWEATHER_API_KEY_VALUE,
+    });
+    const fullUrl = `${OPENWEATHER_API_BASE_URL}?${queryParams.toString()}`;
+    const openWeatherApiRes = await needle("get", fullUrl);
+    if (openWeatherApiRes.statusCode >= 400)
+      return next(
+        createError(
+          openWeatherApiRes.statusCode || 400,
+          openWeatherApiRes.body.message || ""
+        )
+      );
+    const data = openWeatherApiRes.body;
+    return res.status(200).json({
+      code: 1,
+      success: true,
+      message: `Received weather for: ${q}`,
+      data: data,
+    });
+  } catch (error) {
+    return next(createError(500, error.message));
+  }
+};
