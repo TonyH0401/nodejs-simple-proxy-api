@@ -4,6 +4,7 @@
 const createError = require("http-errors");
 const path = require("path");
 const needle = require("needle");
+const chalk = require("chalk");
 
 // --------------------------
 // Section: Custom Utils Requirements
@@ -19,6 +20,7 @@ const needle = require("needle");
 const OPENWEATHER_API_BASE_URL = process.env.OPENWEATHER_API_BASE_URL || "";
 const OPENWEATHER_API_KEY_NAME = process.env.OPENWEATHER_API_KEY_NAME || "";
 const OPENWEATHER_API_KEY_VALUE = process.env.OPENWEATHER_API_KEY_VALUE || "";
+const NODE_APP_ENV = process.env.NODE_APP_ENV || "";
 
 // --------------------------
 // Section: Import Models
@@ -51,6 +53,8 @@ module.exports.getWeatherByCityName = async (req, res, next) => {
         )
       );
     const data = openWeatherApiRes.body;
+    if (NODE_APP_ENV !== "production")
+      console.log(chalk.bgCyanBright.italic.bold(`REQUEST: ${fullUrl}`));
     return res.status(200).json({
       code: 1,
       success: true,
