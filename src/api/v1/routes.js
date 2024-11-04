@@ -25,6 +25,9 @@ const {
 // User Routers: /api/v1/users/...
 const UsersRouter = require("./Users/UsersRouter");
 router.use("/users", limit100Req15Min, UsersRouter);
+// Weather Routers: /api/v1/weathers/...
+const WeathersRouter = require("./Weathers/WeathersRouter");
+router.use("/weathers", WeathersRouter);
 
 // --------------------------
 // Section: Exports
