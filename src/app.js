@@ -29,7 +29,7 @@ const app = express();
 // --------------------------
 // Section: Application-wide Settings
 // --------------------------
-app.set("trust proxy", 1);
+app.set("trust proxy", 1); // this Express app is a proxy server, it tells this app to trust the header values of the previous proxy
 
 // --------------------------
 // Section: Application Usage Functions
