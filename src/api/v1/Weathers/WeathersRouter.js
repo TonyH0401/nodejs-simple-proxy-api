@@ -20,7 +20,10 @@ const {
 // --------------------------
 // Section: Weathers Middlewares
 // --------------------------
-const { getWeatherByCityName } = require("./WeathersMiddleware");
+const {
+  validateWeatherEnvConfig,
+  getWeatherByCityName,
+} = require("./WeathersMiddleware");
 
 // --------------------------
 // Section: Weathers Routers
@@ -32,7 +35,9 @@ router.route("/").get((req, res) => {
     message: "Default branch 🥚 of /weathers! ",
   });
 });
-router.route("/get-weather").get(cache5Minutes200Status, getWeatherByCityName);
+router
+  .route("/get-weather")
+  .get(validateWeatherEnvConfig, cache5Minutes200Status, getWeatherByCityName);
 
 // --------------------------
 // Section: Weathers Error Handlers
