@@ -27,6 +27,11 @@ const port = process.env.BE_PORT || 8080;
 const app = express();
 
 // --------------------------
+// Section: Application-wide Settings
+// --------------------------
+app.set("trust proxy", 1);
+
+// --------------------------
 // Section: Application Usage Functions
 // --------------------------
 app.use(bodyParser.json());
