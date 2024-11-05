@@ -10,6 +10,7 @@ const createError = require("http-errors");
 const {
   cache5Minutes,
   cache15Minutes,
+  cache5Minutes200Status,
 } = require("../../../utils/requestCaching");
 
 // --------------------------
@@ -31,7 +32,7 @@ router.route("/").get((req, res) => {
     message: "Default branch 🥚 of /weathers! ",
   });
 });
-router.route("/get-weather").get(cache5Minutes, getWeatherByCityName);
+router.route("/get-weather").get(cache5Minutes200Status, getWeatherByCityName);
 
 // --------------------------
 // Section: Weathers Error Handlers
