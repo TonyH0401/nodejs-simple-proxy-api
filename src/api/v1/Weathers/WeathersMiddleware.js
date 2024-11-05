@@ -29,6 +29,24 @@ const NODE_APP_ENV = process.env.NODE_APP_ENV || "";
 // --------------------------
 // Section: Weathers Middlewares
 // --------------------------
+module.exports.validateWeatherEnvConfig = async (req, res, next) => {
+  try {
+    if (!OPENWEATHER_API_BASE_URL)
+      return next(createError(404, "Config for weather URL not found!"));
+    if (!OPENWEATHER_API_KEY_NAME)
+      return next(createError(404, "Config for weather KEY_NAME not found!"));
+    if (!OPENWEATHER_API_KEY_VALUE)
+      return next(createError(404, "Config for weather KEY_VALUE not found!"));
+    // if (!NODE_APP_ENV)
+    //   return next(
+    //     createError(404, "Missing application environment definition!")
+    //   );
+    return next();
+  } catch (error) {
+    return next(createError(500, error.message));
+  }
+};
+
 module.exports.getWeatherByCityName = async (req, res, next) => {
   const { q } = req.query;
   try {
